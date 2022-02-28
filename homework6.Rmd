@@ -9,4 +9,27 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
+```{r}
+library(tidyverse)
+```
+
+## Read in data
+```{r}
 HAPPY <- readRDS("data/HAPPY.rds")
+```
+
+# Cleaning data
+
+## Replacing IAP, DK, NA with "NA"
+```{r}
+HAPPY <- replace(HAPPY, HAPPY %in% c("IAP", "DK", "NA"), NA)
+HAPPY
+```
+
+## Changing "89 AND OLDER" to 89, and assuming the variable should be numeric
+```{r}
+HAPPY <- HAPPY %>% mutate(
+  age = replace(AGE, AGE == "89 AND OLDER", 89),
+  age = as.numeric(age)
+) %>% select(-AGE)
+```
