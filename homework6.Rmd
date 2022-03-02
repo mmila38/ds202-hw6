@@ -22,7 +22,9 @@ HAPPY <- readRDS("data/HAPPY.rds")
 
 ## Replacing IAP, DK, NA with "NA"
 ```{r}
-HAPPY <- replace(HAPPY, HAPPY %in% c("IAP", "DK", "NA"), NA)
+HAPPY = replace(HAPPY, HAPPY == "IAP", NA)
+HAPPY = replace(HAPPY, HAPPY == "DK", NA)
+HAPPY = replace(HAPPY, HAPPY == "NA", NA)
 HAPPY
 ```
 
@@ -32,4 +34,29 @@ HAPPY <- HAPPY %>% mutate(
   age = replace(AGE, AGE == "89 AND OLDER", 89),
   age = as.numeric(age)
 ) %>% select(-AGE)
+str(HAPPY)
+```
+
+## Bring all levels of factor into a sensible order.
+
+### Degree
+```{r}
+HAPPY <- HAPPY %>% mutate(
+  degree = factor(tolower(DEGREE)),
+  degree = factor(degree, levels=c("lt high school", "high school", "junior college", "bachelor", "graduate school"))
+) %>% select(-DEGREE)
+
+HAPPY %>% ggplot(aes(x = degree)) + geom_bar()
+```
+
+
+```{r}
+HAPPY <- HAPPY %>% mutate(
+  HAPPY = as.factor(HAPPY),
+  SEX = as.factor(SEX),
+  MARITAL = as.factor(MARITAL),
+  FINRELA = as.factor(FINRELA),
+  HEALTH = as.factor(HEALTH)
+)
+str(HAPPY)
 ```
