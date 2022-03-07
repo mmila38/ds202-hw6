@@ -56,7 +56,42 @@ HAPPY <- HAPPY %>% mutate(
   SEX = as.factor(SEX),
   MARITAL = as.factor(MARITAL),
   FINRELA = as.factor(FINRELA),
-  HEALTH = as.factor(HEALTH)
+  HEALTH = as.factor(HEALTH),
+  PARTYID = as.factor(PARTYID)
 )
 str(HAPPY)
 ```
+
+### Changing levels of marital status and finanical relationship
+```{r}
+HAPPY <- HAPPY %>% mutate(
+  marital = factor(tolower(MARITAL)),
+  marital = factor(marital, levels=c("never married", "seperated", "married", "divorced", "widowed"))
+) %>% select(-MARITAL)
+
+levels(HAPPY$marital)
+
+HAPPY <- HAPPY %>% mutate(
+  finrela = factor(tolower(FINRELA)),
+  finrela = factor(finrela, levels=c("far below average", "below average", "average", "above average", "far above average"))
+) %>% select(-FINRELA)
+
+levels(HAPPY$finrela)
+```
+
+str(HAPPY)
+levels(HAPPY$HEALTH)
+
+### Changing of levels of health to make it from poor to excellent
+
+```{r}
+HAPPY <- HAPPY %>% mutate(
+  health = factor(tolower(HEALTH)),
+  health = factor(health, levels=c("poor", "fair", "good", "excellent"))
+) %>% select(-HEALTH)
+
+levels(HAPPY$health)
+```
+
+str(HAPPY)
+levels(HAPPY$PARTYID)
