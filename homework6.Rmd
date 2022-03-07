@@ -5,6 +5,14 @@ date: "2/28/2022"
 output: html_document
 ---
 
+## Team Members
+
+- Michael Mila 
+- Wei Hern Lim
+
+## Github link
+https://github.com/mmila38/ds202-hw6
+
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
@@ -25,7 +33,6 @@ HAPPY <- readRDS("data/HAPPY.rds")
 HAPPY = replace(HAPPY, HAPPY == "IAP", NA)
 HAPPY = replace(HAPPY, HAPPY == "DK", NA)
 HAPPY = replace(HAPPY, HAPPY == "NA", NA)
-HAPPY
 ```
 
 ## Changing "89 AND OLDER" to 89, and assuming the variable should be numeric
@@ -93,5 +100,15 @@ HAPPY <- HAPPY %>% mutate(
 levels(HAPPY$health)
 ```
 
-str(HAPPY)
-levels(HAPPY$PARTYID)
+## How is happiness related to health? How does sex also pay a factor? - Question by Michael Mila
+
+```{r}
+happy.health.sex = HAPPY %>% group_by(health, SEX) %>% summarise(m.happy = mean(as.numeric(HAPPY), na.rm = TRUE)) %>% arrange(m.happy)
+
+happy.health.sex %>% ggplot(aes(x = health, fill = SEX)) + 
+  geom_bar(aes(weight = m.happy), position = position_dodge()) + 
+  labs(title = "Happiness on health and sex", y = "Happiness")
+```
+
+It looks like for both male and females, a better health status is related to higher levels of happiness. There appears to be no difference between males and females level of happiness when investigating their health. There is a very small difference in happiness levels between gender in the excellent health category, but it is not large enough to consider gender as a factor that influences happiness and health. Interestingly, those who did not report their health have about the same happiness levels of those who reported "good".
+
