@@ -112,3 +112,12 @@ happy.health.sex %>% ggplot(aes(x = health, fill = SEX)) +
 
 It looks like for both male and females, a better health status is related to higher levels of happiness. There appears to be no difference between males and females level of happiness when investigating their health. There is a very small difference in happiness levels between gender in the excellent health category, but it is not large enough to consider gender as a factor that influences happiness and health. Interestingly, those who did not report their health have about the same happiness levels of those who reported "good".
 
+## How is happiness related to age? Does sex play a role? - Question by Wei Hern Lim  
+
+```{r}
+happy.age.sex = HAPPY %>% group_by(age, SEX) %>% summarise(m.happy2 = mean(as.numeric(HAPPY), na.rm = TRUE)) %>% arrange(m.happy2)
+  
+ggplot(data=happy.age.sex, aes(x=age, y=m.happy2, colour=SEX)) + geom_point() +  geom_smooth(method='lm', se=FALSE) + labs(title="Happiness vs Age", y="happiness")
+```
+
+From the data, it seems that males have a positive trend when observing the relationship between age and happiness whereas femalse have a negative trend. This may be due to a few outliers that are heavily weighing down/pushing up the happiness. The male category seems to have a lower overall happiness at a younger age but grows at a steady rate to a rating of about 2.27 at its maximum when age is around 90. The female category starts at a higher overall happiness when compared to the male categoery and is steady for most of the time but declining very slowly until when age is 70 where it has a sharp decline causing the overall average happiness to decline.
